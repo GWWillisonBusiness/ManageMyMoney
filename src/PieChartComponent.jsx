@@ -8,7 +8,8 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-// Sample budget data
+// Sample budget data MODIFY LATER
+// This data can be replaced with actual budget entries
 const data = [
   { name: "Rent", value: 400.99 },
   { name: "Groceries", value: 300 },
@@ -28,7 +29,7 @@ const PieChartComponent = () => {
           data={data}
           dataKey="value"
           nameKey="name"
-          innerRadius={65} 
+          innerRadius={65}
           outerRadius={100}
           fill="#8884d8"
           label
@@ -38,7 +39,6 @@ const PieChartComponent = () => {
           ))}
         </Pie>
 
-        {"AHHHH"}
         <text
           x="50%"
           y="50%"
@@ -52,7 +52,6 @@ const PieChartComponent = () => {
         </text>
 
         <Tooltip />
-        <Legend />
       </PieChart>
     </ResponsiveContainer>
   );
