@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./App.css";
-const TotalMoneyComponent = ({ totalMoneyCount }) => {
+const TotalMoneyComponent = ({totalBalance}) => {
   return (
     <div className="totalMoneyComponent">
-      <h2>Total: ${totalMoneyCount.toFixed(2)}</h2>
+      <h2>Total: ${totalBalance.toFixed(2)}</h2>
     </div>
   );
 };

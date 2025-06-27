@@ -6,9 +6,9 @@ const TaskMenu = ({ onSubmit, onClose, show }) => {
   const [type, setType] = useState("add");
 
   const handleSubmit = () => {
-    const num = parseFloat(amount);
-    if (isNaN(num) || num <= 0) return;
-    onSubmit(type, num);
+    const number = parseFloat(amount);
+    if (isNaN(number) || number <= 0) return;
+    onSubmit(type, number);
     setAmount("");
     setType("add");
     onClose();
