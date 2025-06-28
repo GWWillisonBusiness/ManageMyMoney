@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import "./App.css";
 import PieChartComponent from "./PieChartComponent";
 import TotalMoneyComponent from "./TotalMoneyComponent";
-import TaskMenu from "./TaskMenu";
+import TransactionMenu from "./TransactionMenu";
+import DropDownMenu from "./DropDownMenu"; // your top-right dropdown
 
 function App() {
   const [totalBalance, setTotalBalance] = useState(() => {
@@ -11,6 +12,7 @@ function App() {
   });
   const [showTaskForm, setShowTaskForm] = useState(false);
   const [inputTotalAmount, setInputTotalAmount] = useState("");
+  const [showCategoryForm, setShowCategoryForm] = useState(false);
 
   // Load from localStorage on first render
   useEffect(() => {
@@ -23,14 +25,11 @@ function App() {
   // Save to localStorage when balance changes
   useEffect(() => {
     localStorage.setItem("totalBalance", totalBalance.toString());
-
-    console.log("Saved to localStorage:", totalBalance);
   }, [totalBalance]);
 
   const handleTransaction = (type, amount) => {
     const value = parseFloat(amount);
     if (isNaN(value) || value <= 0) return;
-
     setTotalBalance((prev) => (type === "add" ? prev + value : prev - value));
   };
 
@@ -40,9 +39,11 @@ function App() {
         <h1>Manage My Money</h1>
         <TotalMoneyComponent totalBalance={totalBalance} />
       </header>
-      <main>
+
+      <main className="px-6 py-4">
         <PieChartComponent />
       </main>
+
       <button
         onClick={() => setShowTaskForm((prev) => !prev)}
         className="taskButton"
@@ -50,8 +51,10 @@ function App() {
         +
       </button>
 
+      <DropDownMenu />
+
       {showTaskForm && (
-        <TaskMenu
+        <TransactionMenu
           show={showTaskForm}
           onSubmit={handleTransaction}
           onClose={() => setShowTaskForm(false)}
