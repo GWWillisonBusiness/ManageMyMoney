@@ -160,7 +160,7 @@ const CategoriesPage = () => {
               // When budget manually changes
               setTotalBudget(newVal);
               localStorage.setItem("totalBudget", newVal.toString());
-              localStorage.setItem("budgetRemaining", newVal.toString()); // 👈 Set initial remaining
+              localStorage.setItem("budgetRemaining", newVal.toString()); // Set initial remaining
 
               const updated = categories.map((cat) => ({
                 ...cat,
