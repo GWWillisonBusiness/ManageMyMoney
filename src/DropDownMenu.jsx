@@ -10,7 +10,6 @@ const DropDownMenu = () => {
   const menuItems = [
     { label: "Settings", path: "/settings" },
     { label: "Categories", path: "/categories" },
-    { label: "Budget Reset Timer", path: "/timer" },
     { label: "All Transactions", path: "/allTransactionPage" }, // 👈 New menu item
   ];
 
