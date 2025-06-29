@@ -1,24 +1,26 @@
 import React, { useState } from "react";
-import "./App.css"; // or wherever your styles are
+import "./TransactionMenu.css";
 
-const TransactionMenu = ({ onSubmit, onClose, show }) => {
+const TransactionMenu = ({ onSubmit, onClose, show, categories }) => {
   const [amount, setAmount] = useState("");
   const [transactionType, setTransactionType] = useState("add");
   const [categoryType, setCategoryType] = useState("");
+  const [description, setDescription] = useState("");
 
   const handleSubmit = () => {
     const number = parseFloat(amount);
     if (isNaN(number) || number <= 0) return;
-    onSubmit(transactionType, number);
+    onSubmit(transactionType, number, categoryType, description);
     setAmount("");
     setTransactionType("add");
+    setCategoryType("");
+    setDescription("");
     onClose();
   };
 
   return (
-    //Note: In Second Select Statement I need to add the categories to it!
     <div className={`taskOverlay ${show ? "show" : ""}`} onClick={onClose}>
-      <div className="taskPanel" onClick={(e) => e.stopPropagation()}>
+      <div className="transactionPopup" onClick={(e) => e.stopPropagation()}>
         <h3>{transactionType === "add" ? "Add Money" : "Subtract Money"}</h3>
 
         <input
@@ -26,13 +28,18 @@ const TransactionMenu = ({ onSubmit, onClose, show }) => {
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
           placeholder="Enter Amount"
-          style={{ marginBottom: "1rem", padding: "0.5rem", width: "95%" }}
+        />
+
+        <input
+          type="text"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          placeholder="Description (optional)"
         />
 
         <select
           value={transactionType}
           onChange={(e) => setTransactionType(e.target.value)}
-          style={{ marginBottom: "1rem", padding: "0.5rem", width: "100%" }}
         >
           <option value="add">Add</option>
           <option value="subtract">Subtract</option>
@@ -41,18 +48,16 @@ const TransactionMenu = ({ onSubmit, onClose, show }) => {
         <select
           value={categoryType}
           onChange={(e) => setCategoryType(e.target.value)}
-          style={{ marginBottom: "1rem", padding: "0.5rem", width: "100%" }}
         >
-          <option value="1">Categories</option>
-          <option value="2">Categories 2</option>
+          <option value="">No Category</option>
+          {categories.map((cat, idx) => (
+            <option key={idx} value={cat.name}>
+              {cat.name}
+            </option>
+          ))}
         </select>
 
-        <button
-          onClick={handleSubmit}
-          style={{ padding: "0.5rem", width: "100%" }}
-        >
-          Submit
-        </button>
+        <button onClick={handleSubmit}>Submit</button>
       </div>
     </div>
   );
