@@ -36,7 +36,7 @@ const PieChartComponent = ({ categories, totalBudget }) => {
 
         <text
           x="50%"
-          y="45%"
+          y="43%"
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={12}
