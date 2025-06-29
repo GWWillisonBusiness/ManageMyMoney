@@ -4,38 +4,30 @@ import {
   Pie,
   Cell,
   Tooltip,
-  Legend,
   ResponsiveContainer,
 } from "recharts";
 
-// Sample budget data MODIFY LATER
-// This data can be replaced with actual budget entries
-const data = [
-  { name: "Rent", value: 400.99 },
-  { name: "Groceries", value: 300 },
-  { name: "Entertainment", value: 200 },
-  { name: "Savings", value: 100 },
-];
+const COLORS = ["#8884d8", "#82ca9d", "#ffc658", "#ff6666", "#00C49F", "#FFBB28"];
 
-const total = data.reduce((sum, entry) => sum + entry.value, 0);
+const PieChartComponent = ({ categories, totalBudget }) => {
+  const totalUsed = categories.reduce((sum, cat) => sum + (cat.value || 0), 0);
 
-const COLORS = ["#8884d8", "#82ca9d", "#ffc658", "#ff6666"];
-
-const PieChartComponent = () => {
   return (
     <ResponsiveContainer width="100%" height={300}>
       <PieChart>
         <Pie
-          data={data}
+          data={categories}
           dataKey="value"
           nameKey="name"
           innerRadius={65}
           outerRadius={100}
-          fill="#8884d8"
-          label
+          label={({ name, value }) => `${name}: $${value.toFixed(2)}`}
         >
-          {data.map((entry, index) => (
-            <Cell key={`slice-${index}`} fill={COLORS[index % COLORS.length]} />
+          {categories.map((entry, index) => (
+            <Cell
+              key={`slice-${index}`}
+              fill={COLORS[index % COLORS.length]}
+            />
           ))}
         </Pie>
 
@@ -48,10 +40,12 @@ const PieChartComponent = () => {
           fontWeight="bold"
           fill="#ffffff"
         >
-          ${total}
+          ${totalBudget.toFixed(2)}
         </text>
 
-        <Tooltip />
+        <Tooltip
+          formatter={(value, name) => [`$${value.toFixed(2)}`, name]}
+        />
       </PieChart>
     </ResponsiveContainer>
   );
