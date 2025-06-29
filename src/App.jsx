@@ -119,7 +119,7 @@ function App() {
           categories={categories}
           totalBudget={budgetRemaining}
         />
-        <RecentTransactions transactions={transactions} />
+        {/* <RecentTransactions transactions={transactions} /> */}
       </main>
 
       <button
