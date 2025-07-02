@@ -20,7 +20,13 @@ const TransactionMenu = ({ onSubmit, onClose, show, categories }) => {
 
   return (
     <div className={`taskOverlay ${show ? "show" : ""}`} onClick={onClose}>
-      <div className="transactionPopup" onClick={(e) => e.stopPropagation()}>
+      <div
+        className={`transactionPopup ${show ? "popup-show" : ""}`}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <button className="closeButton" onClick={onClose}>
+          &times;
+        </button>
         <h3>{transactionType === "add" ? "Add Money" : "Subtract Money"}</h3>
 
         <input
@@ -57,7 +63,9 @@ const TransactionMenu = ({ onSubmit, onClose, show, categories }) => {
           ))}
         </select>
 
-        <button onClick={handleSubmit}>Submit</button>
+        <button className="submitButton" onClick={handleSubmit}>
+          Submit
+        </button>
       </div>
     </div>
   );
