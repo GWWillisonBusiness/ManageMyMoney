@@ -3,7 +3,7 @@ import "./TransactionMenu.css";
 
 const TransactionMenu = ({ onSubmit, onClose, show, categories }) => {
   const [amount, setAmount] = useState("");
-  const [transactionType, setTransactionType] = useState("add");
+  const [transactionType, setTransactionType] = useState("subtract");
   const [categoryType, setCategoryType] = useState("");
   const [description, setDescription] = useState("");
 

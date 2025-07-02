@@ -43,6 +43,7 @@ function App() {
 
   const [showTaskForm, setShowTaskForm] = useState(false);
 
+  // Persist to localStorage
   useEffect(() => {
     if (safeStorage) {
       safeStorage.setItem("totalBalance", totalBalance.toString());
@@ -73,6 +74,24 @@ function App() {
     }
   }, [transactions]);
 
+  // Check for budget reset periodically
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const nextResetTime = parseInt(localStorage.getItem("nextResetTime"));
+      if (Date.now() > nextResetTime) {
+        const updatedBudget = parseFloat(localStorage.getItem("budgetRemaining")) || 0;
+        const updatedCategories = JSON.parse(localStorage.getItem("categories")) || [];
+        const updatedTotal = parseFloat(localStorage.getItem("totalBudget")) || 0;
+
+        setBudgetRemaining(updatedBudget);
+        setCategories(updatedCategories);
+        setTotalBudget(updatedTotal);
+      }
+    }, 5000); 
+
+    return () => clearInterval(interval);
+  }, []);
+
   const handleTransaction = (
     type,
     amount,
@@ -91,7 +110,6 @@ function App() {
     };
 
     setTransactions((prev) => [newTransaction, ...prev]);
-
     setTotalBalance((prev) => (type === "add" ? prev + value : prev - value));
 
     if (categoryName) {

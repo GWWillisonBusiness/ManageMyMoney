@@ -1,0 +1,14 @@
+.pieChartCenterTextTop {
+  font-size: 12px;
+  fill: #aaa;
+  dominant-baseline: middle;
+  text-anchor: middle;
+}
+
+.pieChartCenterTextBottom {
+  font-size: 18px;
+  font-weight: bold;
+  fill: #ffffff;
+  dominant-baseline: middle;
+  text-anchor: middle;
+}
