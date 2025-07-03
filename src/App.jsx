@@ -43,38 +43,26 @@ function App() {
 
   const [showTaskForm, setShowTaskForm] = useState(false);
 
-  // Persist to localStorage
   useEffect(() => {
-    if (safeStorage) {
-      safeStorage.setItem("totalBalance", totalBalance.toString());
-    }
+    if (safeStorage) safeStorage.setItem("totalBalance", totalBalance.toString());
   }, [totalBalance]);
 
   useEffect(() => {
-    if (safeStorage) {
-      safeStorage.setItem("totalBudget", totalBudget.toString());
-    }
+    if (safeStorage) safeStorage.setItem("totalBudget", totalBudget.toString());
   }, [totalBudget]);
 
   useEffect(() => {
-    if (safeStorage) {
-      safeStorage.setItem("categories", JSON.stringify(categories));
-    }
+    if (safeStorage) safeStorage.setItem("categories", JSON.stringify(categories));
   }, [categories]);
 
   useEffect(() => {
-    if (safeStorage) {
-      safeStorage.setItem("budgetRemaining", budgetRemaining.toString());
-    }
+    if (safeStorage) safeStorage.setItem("budgetRemaining", budgetRemaining.toString());
   }, [budgetRemaining]);
 
   useEffect(() => {
-    if (safeStorage) {
-      safeStorage.setItem("transactions", JSON.stringify(transactions));
-    }
+    if (safeStorage) safeStorage.setItem("transactions", JSON.stringify(transactions));
   }, [transactions]);
 
-  // Check for budget reset periodically
   useEffect(() => {
     const interval = setInterval(() => {
       const nextResetTime = parseInt(localStorage.getItem("nextResetTime"));
@@ -87,17 +75,12 @@ function App() {
         setCategories(updatedCategories);
         setTotalBudget(updatedTotal);
       }
-    }, 5000); 
+    }, 5000);
 
     return () => clearInterval(interval);
   }, []);
 
-  const handleTransaction = (
-    type,
-    amount,
-    categoryName = "",
-    description = ""
-  ) => {
+  const handleTransaction = (type, amount, categoryName = "", description = "") => {
     const value = parseFloat(amount);
     if (isNaN(value) || value <= 0) return;
 
@@ -116,31 +99,17 @@ function App() {
       if (type === "subtract") {
         setCategories((prev) =>
           prev.map((cat) =>
-            cat.name === categoryName
-              ? { ...cat, value: Math.max(0, cat.value - value) }
-              : cat
+            cat.name === categoryName ? { ...cat, value: Math.max(0, cat.value - value) } : cat
           )
         );
-        setBudgetRemaining((prev) => {
-          const newVal = Math.max(0, prev - value);
-          if (safeStorage)
-            safeStorage.setItem("budgetRemaining", newVal.toString());
-          return newVal;
-        });
-      } else if (type === "add") {
+        setBudgetRemaining((prev) => Math.max(0, prev - value));
+      } else {
         setCategories((prev) =>
           prev.map((cat) =>
-            cat.name === categoryName
-              ? { ...cat, value: cat.value + value }
-              : cat
+            cat.name === categoryName ? { ...cat, value: cat.value + value } : cat
           )
         );
-        setBudgetRemaining((prev) => {
-          const newVal = prev + value;
-          if (safeStorage)
-            safeStorage.setItem("budgetRemaining", newVal.toString());
-          return newVal;
-        });
+        setBudgetRemaining((prev) => prev + value);
       }
     }
   };
@@ -152,7 +121,7 @@ function App() {
         <TotalMoneyComponent totalBalance={totalBalance} />
       </header>
 
-      <main className="px-6 py-4">
+      <main className="mainContent">
         <PieChartComponent
           categories={categories}
           totalBudget={budgetRemaining}
@@ -163,6 +132,7 @@ function App() {
       <button
         onClick={() => setShowTaskForm((prev) => !prev)}
         className="taskButton"
+        title="Add Transaction"
       >
         +
       </button>
