@@ -71,3 +71,31 @@ body {
   font-weight: bold;
   font-size: 0.9rem;
 }
+.monthSelector {
+  margin: 1rem 0;
+}
+
+.monthSelector select {
+  padding: 0.5rem;
+  border-radius: 8px;
+  background-color: #1e1e1e;
+  color: white;
+  border: 1px solid #444;
+}
+
+.categoryBreakdown {
+  background: #2a2a2a;
+  padding: 1rem;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  color: #fff;
+}
+
+.categoryBreakdown ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.categoryBreakdown li {
+  margin-bottom: 0.5rem;
+}
