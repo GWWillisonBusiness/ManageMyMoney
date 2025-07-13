@@ -10,7 +10,7 @@ const DropDownMenu = () => {
   const menuItems = [
     { label: "Settings", path: "/settings" },
     { label: "Categories", path: "/categories" },
-    { label: "All Transactions", path: "/allTransactionPage" }, // 👈 New menu item
+    { label: "All Transactions", path: "/allTransactionPage" },
   ];
 
   return (

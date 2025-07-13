@@ -28,15 +28,16 @@ const getNextResetTime = (frequency) => {
 const CategoriesPage = () => {
   const navigate = useNavigate();
 
-  const [totalBudget, setTotalBudget] = useState(() =>
-    parseFloat(localStorage.getItem("totalBudget")) || 0
+  const [totalBudget, setTotalBudget] = useState(
+    () => parseFloat(localStorage.getItem("totalBudget")) || 0
   );
-  const [resetFrequency, setResetFrequency] = useState(() =>
-    localStorage.getItem("resetFrequency") || "monthly"
+  const [resetFrequency, setResetFrequency] = useState(
+    () => localStorage.getItem("resetFrequency") || "monthly"
   );
-  const [resetTime, setResetTime] = useState(() =>
-    parseInt(localStorage.getItem("nextResetTime")) ||
-    getNextResetTime(resetFrequency)
+  const [resetTime, setResetTime] = useState(
+    () =>
+      parseInt(localStorage.getItem("nextResetTime")) ||
+      getNextResetTime(resetFrequency)
   );
   const [timeLeft, setTimeLeft] = useState("");
   const [showPopup, setShowPopup] = useState(false);
@@ -64,11 +65,15 @@ const CategoriesPage = () => {
         resetBudget();
       } else {
         const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const hours = Math.floor(
+          (diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+        );
         const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
-        setTimeLeft(`${days > 0 ? `${days}d ` : ""}${hours}h ${minutes}m ${seconds}s`);
+        setTimeLeft(
+          `${days > 0 ? `${days}d ` : ""}${hours}h ${minutes}m ${seconds}s`
+        );
       }
     }, 1000);
 
@@ -90,7 +95,12 @@ const CategoriesPage = () => {
 
   const handleAddCategory = () => {
     const percentValue = parseFloat(newCategory.percent);
-    if (!newCategory.name || isNaN(percentValue) || percentValue <= 0 || totalBudgetPercent + percentValue > 100) {
+    if (
+      !newCategory.name ||
+      isNaN(percentValue) ||
+      percentValue <= 0 ||
+      totalBudgetPercent + percentValue > 100
+    ) {
       alert("Please enter valid data within 100% total.");
       return;
     }
@@ -156,7 +166,7 @@ const CategoriesPage = () => {
               const newVal = parseFloat(e.target.value);
               setTotalBudget(newVal);
               localStorage.setItem("totalBudget", newVal.toString());
-              localStorage.setItem("budgetRemaining", newVal.toString()); // ✅ KEY LINE
+              localStorage.setItem("budgetRemaining", newVal.toString());
 
               const updated = categories.map((cat) => ({
                 ...cat,
@@ -195,16 +205,27 @@ const CategoriesPage = () => {
             return (
               <div key={idx} className="categoryItem animatedFadeIn">
                 {cat.isEditing ? (
-                  <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem", flex: 1 }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "0.5rem",
+                      flex: 1,
+                    }}
+                  >
                     <input
                       placeholder="Name"
                       value={cat.name}
-                      onChange={(e) => handleEditChange(idx, "name", e.target.value)}
+                      onChange={(e) =>
+                        handleEditChange(idx, "name", e.target.value)
+                      }
                     />
                     <input
                       placeholder="Description"
                       value={cat.description}
-                      onChange={(e) => handleEditChange(idx, "description", e.target.value)}
+                      onChange={(e) =>
+                        handleEditChange(idx, "description", e.target.value)
+                      }
                     />
                     <input
                       type="number"
@@ -213,11 +234,15 @@ const CategoriesPage = () => {
                       onChange={(e) => {
                         const newPercent = parseFloat(e.target.value);
                         const otherPercents = categories.reduce(
-                          (acc, curr, i) => acc + (i !== idx ? parseFloat(curr.percent || 0) : 0),
+                          (acc, curr, i) =>
+                            acc +
+                            (i !== idx ? parseFloat(curr.percent || 0) : 0),
                           0
                         );
                         if (newPercent + otherPercents > 100) {
-                          alert("Total percent across all categories must not exceed 100%.");
+                          alert(
+                            "Total percent across all categories must not exceed 100%."
+                          );
                           return;
                         }
                         handleEditChange(idx, "percent", e.target.value);
@@ -229,13 +254,20 @@ const CategoriesPage = () => {
                       onChange={(e) => {
                         const amount = parseFloat(e.target.value);
                         if (!isNaN(amount)) {
-                          const converted = ((amount / totalBudget) * 100).toFixed(2);
+                          const converted = (
+                            (amount / totalBudget) *
+                            100
+                          ).toFixed(2);
                           const otherPercents = categories.reduce(
-                            (acc, curr, i) => acc + (i !== idx ? parseFloat(curr.percent || 0) : 0),
+                            (acc, curr, i) =>
+                              acc +
+                              (i !== idx ? parseFloat(curr.percent || 0) : 0),
                             0
                           );
                           if (parseFloat(converted) + otherPercents > 100) {
-                            alert("Total percent across all categories must not exceed 100%.");
+                            alert(
+                              "Total percent across all categories must not exceed 100%."
+                            );
                             return;
                           }
                           handleEditChange(idx, "percent", converted);
@@ -253,13 +285,21 @@ const CategoriesPage = () => {
                 ) : (
                   <>
                     <div style={{ flex: 1 }}>
-                      <strong>{cat.name}</strong> – ({cat.percent}%) — ${cat.value.toFixed(2)}
+                      <strong>{cat.name}</strong> – ({cat.percent}%) — $
+                      {cat.value.toFixed(2)}
                       <br />
                       <small>{cat.description}</small>
                     </div>
                     <div>
-                      <button onClick={() => toggleEdit(idx)} title="Edit">✎</button>
-                      <button onClick={() => handleRemove(idx)} className="removeButton">✕</button>
+                      <button onClick={() => toggleEdit(idx)} title="Edit">
+                        ✎
+                      </button>
+                      <button
+                        onClick={() => handleRemove(idx)}
+                        className="removeButton"
+                      >
+                        ✕
+                      </button>
                     </div>
                   </>
                 )}
@@ -268,8 +308,12 @@ const CategoriesPage = () => {
           })}
         </div>
 
-        <button onClick={() => setShowPopup(true)} className="addButton">+ Add Category</button>
-        <button onClick={() => navigate("/")} className="homeButton">← Home</button>
+        <button onClick={() => setShowPopup(true)} className="addButton">
+          + Add Category
+        </button>
+        <button onClick={() => navigate("/")} className="homeButton">
+          ← Home
+        </button>
 
         {showPopup && (
           <div className="popupOverlay" onClick={() => setShowPopup(false)}>
@@ -279,19 +323,28 @@ const CategoriesPage = () => {
                 type="text"
                 placeholder="Name"
                 value={newCategory.name}
-                onChange={(e) => setNewCategory({ ...newCategory, name: e.target.value })}
+                onChange={(e) =>
+                  setNewCategory({ ...newCategory, name: e.target.value })
+                }
               />
               <input
                 type="text"
                 placeholder="Description"
                 value={newCategory.description}
-                onChange={(e) => setNewCategory({ ...newCategory, description: e.target.value })}
+                onChange={(e) =>
+                  setNewCategory({
+                    ...newCategory,
+                    description: e.target.value,
+                  })
+                }
               />
               <input
                 type="number"
                 placeholder="% of Budget"
                 value={newCategory.percent}
-                onChange={(e) => setNewCategory({ ...newCategory, percent: e.target.value })}
+                onChange={(e) =>
+                  setNewCategory({ ...newCategory, percent: e.target.value })
+                }
               />
               <button onClick={handleAddCategory}>Create</button>
             </div>
